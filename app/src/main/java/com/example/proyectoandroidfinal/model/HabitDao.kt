@@ -33,5 +33,6 @@ interface ReminderDao {
     @Query("SELECT * FROM reminder WHERE habitId = :habitId")
     suspend fun getRemindersForHabit(habitId: Int): List<Reminder>
 
-
+    @Query("SELECT * FROM reminder")
+    suspend fun getAllReminders(): List<Reminder>
 }
