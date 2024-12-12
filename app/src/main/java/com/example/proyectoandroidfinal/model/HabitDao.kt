@@ -24,3 +24,11 @@ interface ProgressDao {
     @Query("SELECT * FROM progress WHERE habitId = :habitId")
     suspend fun getProgressForHabit(habitId: Int): List<Progress>
 }
+
+@Dao
+interface ReminderDao {
+    @Insert
+    suspend fun insertReminder(reminder: Reminder)
+
+
+}
