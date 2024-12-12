@@ -58,6 +58,10 @@ dependencies {
     implementation(libs.osmdroid.android)
     implementation(libs.osm.android.compose)
 
+
+    // Room KTX (corrutinas)
+    implementation (libs.androidx.room.ktx.v252)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
