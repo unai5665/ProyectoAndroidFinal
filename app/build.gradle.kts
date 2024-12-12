@@ -41,11 +41,15 @@ android {
 }
 
 dependencies {
-
+    // Room
     implementation(libs.androidx.room.runtime)
     implementation (libs.androidx.room.runtime.v252)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
 
     // WorkManager (para usar notificaciones)
     implementation (libs.androidx.work.runtime.ktx)
