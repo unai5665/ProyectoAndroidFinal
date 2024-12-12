@@ -28,3 +28,10 @@ data class Progress(
     val status: Boolean,  // True si el hábito fue completado, False si no
     val note: String? = null
 )
+
+@Entity(tableName = "reminder")
+data class Reminder(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val habitId: Int,  // Relación con la tabla Habit
+    val reminderTime: Long  // Hora del recordatorio
+)
