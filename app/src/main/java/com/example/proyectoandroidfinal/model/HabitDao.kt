@@ -15,6 +15,12 @@ interface HabitDao {
 
     @Query("SELECT * FROM habit")
     suspend fun getAllHabits(): List<Habit>
+
+    // Consulta para obtener todos los hábitos con sus recordatorios
+    @Transaction
+    @Query("SELECT * FROM habit")
+    suspend fun getHabitsWithReminders(): List<HabitWithReminders>
+
 }
 
 @Dao
