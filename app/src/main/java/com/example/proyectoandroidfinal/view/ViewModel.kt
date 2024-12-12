@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.example.proyectoandroidfinal.model.AppDatabase
 import com.example.proyectoandroidfinal.model.Habit
 import com.example.proyectoandroidfinal.model.HabitDao
+import com.example.proyectoandroidfinal.model.HabitWithReminders
 import com.example.proyectoandroidfinal.model.Reminder
 import kotlinx.coroutines.*
 
@@ -34,5 +35,10 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _reminders.value = reminderDao.getRemindersForHabit(habitId)
         }
+    }
+    // Función para obtener los hábitos con sus recordatorios
+    val habitsWithReminders: LiveData<List<HabitWithReminders>> = liveData {
+        val data = habitDao.getHabitsWithReminders()  // Llamamos al DAO para obtener los datos
+        emit(data)
     }
 }
