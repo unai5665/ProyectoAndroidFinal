@@ -20,5 +20,12 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
     private val _reminders = MutableLiveData<List<Reminder>>()
     val reminders: LiveData<List<Reminder>> = _reminders
 
+    // Función para cargar hábitos
+    fun loadHabits() {
+        viewModelScope.launch {
+            _habits.value = habitDao.getAllHabits()
+        }
+    }
+
 
 }
