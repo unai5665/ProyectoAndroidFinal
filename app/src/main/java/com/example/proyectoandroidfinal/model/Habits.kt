@@ -29,7 +29,15 @@ data class Progress(
     val note: String? = null
 )
 
-@Entity(tableName = "reminder")
+@Entity(tableName = "reminder",
+    foreignKeys = [
+        ForeignKey(
+            entity = Habit::class,
+            parentColumns = ["id"],
+            childColumns = ["habitId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ])
 data class Reminder(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val habitId: Int,  // Relación con la tabla Habit
