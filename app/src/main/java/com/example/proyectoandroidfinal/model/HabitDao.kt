@@ -21,5 +21,6 @@ interface ProgressDao {
     @Insert
     suspend fun insertProgress(progress: Progress)
 
-
+    @Query("SELECT * FROM progress WHERE habitId = :habitId")
+    suspend fun getProgressForHabit(habitId: Int): List<Progress>
 }
