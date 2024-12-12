@@ -27,5 +27,10 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
+    // Función para cargar recordatorios de un hábito
+    fun loadRemindersForHabit(habitId: Int) {
+        viewModelScope.launch {
+            _reminders.value = reminderDao.getRemindersForHabit(habitId)
+        }
+    }
 }
