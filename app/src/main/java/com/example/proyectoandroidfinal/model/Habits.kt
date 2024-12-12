@@ -37,7 +37,8 @@ data class Progress(
             childColumns = ["habitId"],
             onDelete = ForeignKey.CASCADE
         )
-    ])
+    ],
+indices = [Index("habitId")] )
 data class Reminder(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val habitId: Int,  // Relación con la tabla Habit
