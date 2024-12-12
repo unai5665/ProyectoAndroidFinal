@@ -11,3 +11,12 @@ data class Habit(
     val reminderTime: String,
     val createdAt: Long = System.currentTimeMillis()
 )
+
+@Entity(tableName = "progress")
+data class Progress(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val habitId: Int,
+    val date: Long,
+    val status: Boolean,
+    val note: String? = null
+)
