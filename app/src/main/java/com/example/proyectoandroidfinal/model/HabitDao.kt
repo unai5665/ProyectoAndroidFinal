@@ -15,3 +15,11 @@ interface HabitDao {
     @Query("SELECT * FROM habit")
     suspend fun getAllHabits(): List<Habit>
 }
+
+@Dao
+interface ProgressDao {
+    @Insert
+    suspend fun insertProgress(progress: Progress)
+
+
+}
