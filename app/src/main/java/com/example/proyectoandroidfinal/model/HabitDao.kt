@@ -2,6 +2,7 @@ package com.example.proyectoandroidfinal.model
 
 import androidx.room.*
 
+@Dao
 interface HabitDao {
     @Insert
     suspend fun insertHabit(habit: Habit)
