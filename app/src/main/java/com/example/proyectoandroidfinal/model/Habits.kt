@@ -12,11 +12,19 @@ data class Habit(
     val createdAt: Long = System.currentTimeMillis()
 )
 
-@Entity(tableName = "progress")
+@Entity(tableName = "progress",
+    foreignKeys = [
+        ForeignKey(
+            entity = Habit::class,
+            parentColumns = ["id"],
+            childColumns = ["habitId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ])
 data class Progress(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val habitId: Int,
+    val habitId: Int,  // Relación con la tabla Habit
     val date: Long,
-    val status: Boolean,
+    val status: Boolean,  // True si el hábito fue completado, False si no
     val note: String? = null
 )
