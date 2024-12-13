@@ -3,7 +3,7 @@ package com.example.proyectoandroidfinal.model
 import android.content.Context
 import androidx.room.*
 
-@Database(entities = [Habit::class, Progress::class], version = 1, exportSchema = false)
+@Database(entities = [Habit::class, Progress::class, Reminder::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun habitDao(): HabitDao
     abstract fun progressDao(): ProgressDao
