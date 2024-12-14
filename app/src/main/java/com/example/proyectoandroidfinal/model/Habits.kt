@@ -43,5 +43,6 @@ indices = [Index("habitId")] )
 data class Reminder(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val habitId: Int,  // Relación con la tabla Habit
-    val reminderTime: Long  // Hora del recordatorio
+    val reminderTime: Long,  // Hora del recordatorio
+    val message: String
 )
