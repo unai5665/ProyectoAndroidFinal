@@ -1,4 +1,4 @@
-package com.example.proyectoandroidfinal.view
+package com.example.proyectoandroidfinal.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
