@@ -1,4 +1,4 @@
-package com.example.proyectoandroidfinal.viewmodel
+package com.example.proyectoandroidfinal.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,7 +10,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.proyectoandroidfinal.view.HabitViewModel
+import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
 
 @Composable
 fun HabitScreen(habitViewModel: HabitViewModel) {
