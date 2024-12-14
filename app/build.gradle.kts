@@ -63,6 +63,10 @@ dependencies {
     // Room KTX (corrutinas)
     implementation (libs.androidx.room.ktx.v252)
 
+    // Jetpack Compose Navigation
+    implementation (libs.androidx.navigation.compose)
+
+    // Dependencias predefinidas
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
