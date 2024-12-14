@@ -50,5 +50,13 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    // Función para actualizar un hábito existente
+    fun updateHabit(habit: Habit) {
+        viewModelScope.launch {
+            habitDao.updateHabit(habit)
+            loadHabits()  // Recargar los hábitos después de la actualización
+        }
+    }
+
 
 }
