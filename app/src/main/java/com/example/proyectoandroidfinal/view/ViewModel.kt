@@ -58,5 +58,11 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
+    // Función para eliminar un hábito
+    fun deleteHabit(habit: Habit) {
+        viewModelScope.launch {
+            habitDao.deleteHabit(habit)
+            loadHabits()  // Recargar los hábitos después de la eliminación
+        }
+    }
 }
