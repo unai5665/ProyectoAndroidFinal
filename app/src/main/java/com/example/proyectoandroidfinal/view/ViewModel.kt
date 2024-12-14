@@ -1,20 +1,19 @@
 package com.example.proyectoandroidfinal.view
 
-import android.app.*
+import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectoandroidfinal.model.AppDatabase
 import com.example.proyectoandroidfinal.model.Habit
 import com.example.proyectoandroidfinal.model.HabitDao
 import com.example.proyectoandroidfinal.model.HabitWithReminders
 import com.example.proyectoandroidfinal.model.Reminder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 
 class HabitViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDatabase.getDatabase(application.applicationContext)
     private val habitDao: HabitDao = AppDatabase.getDatabase(application).habitDao()
     private val progressDao = db.progressDao()
     private val reminderDao = db.reminderDao()
-
 
     // LiveData para mantener los datos
     private val _habits = MutableLiveData<List<Habit>>()
@@ -36,9 +35,20 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
             _reminders.value = reminderDao.getRemindersForHabit(habitId)
         }
     }
+
     // Función para obtener los hábitos con sus recordatorios
     val habitsWithReminders: LiveData<List<HabitWithReminders>> = liveData {
         val data = habitDao.getHabitsWithReminders()  // Llamamos al DAO para obtener los datos
         emit(data)
     }
+
+    // Función para insertar un nuevo hábito
+    fun insert(habit: Habit) {
+        viewModelScope.launch {
+            habitDao.insertHabit(habit)
+            loadHabits()  // Recargar los hábitos después de la inserción
+        }
+    }
+
+
 }
