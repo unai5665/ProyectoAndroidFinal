@@ -125,3 +125,30 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
     }
 }
 
+@Composable
+fun HabitListItem(habit: Habit, onEdit: () -> Unit, onDelete: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Row(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = habit.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = "Categoría: ${habit.category}")
+                Text(text = "Frecuencia: ${habit.frequency}")
+                Text(text = "Hora del Recordatorio: ${habit.reminderTime}")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                IconButton(onClick = onEdit) {
+                    Icon(Icons.Default.Edit, contentDescription = "Editar")
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(Icons.Default.Delete, contentDescription = "Eliminar")
+                }
+            }
+        }
+    }
+}
