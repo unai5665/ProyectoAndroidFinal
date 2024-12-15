@@ -7,19 +7,30 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
+
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navController: NavHostController, habitViewModel: HabitViewModel) {
     NavHost(navController = navController, startDestination = "main_screen") {
+        // Pantalla principal
         composable("main_screen") {
-            MainScreen(navController = navController)
+            MainScreen(navController = navController, habitViewModel = habitViewModel)
         }
+
+        // Gestión de hábitos
         composable("habit_management") {
-            HabitManagementScreen(habitViewModel = viewModel()) // La pantalla para gestionar hábitos
+            HabitManagementScreen(navController = navController, habitViewModel = habitViewModel)
         }
+
+        // Detalles de un hábito
         composable("habit_detail/{habitId}") { backStackEntry ->
-            val habitId = backStackEntry.arguments?.getString("habitId")
-            // Aquí deberías navegar a una pantalla de detalles de un hábito, si la tienes
+            val habitId = backStackEntry.arguments?.getString("habitId")?.toIntOrNull()
+            if (habitId != null) {
+                HabitDetailScreen(navController = navController, habitId = habitId, habitViewModel = habitViewModel)
+            } else {
+                // Opcional: Manejo de error si el habitId es inválido
+            }
         }
     }
 }
