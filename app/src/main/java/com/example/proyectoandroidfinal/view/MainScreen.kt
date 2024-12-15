@@ -24,4 +24,20 @@ import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
 fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
     val habits = habitViewModel.habits.observeAsState(emptyList())
 
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Mis Hábitos") },
+                actions = {
+                    IconButton(onClick = {
+                        // Navegar a la pantalla de gestión para agregar un nuevo hábito
+                        navController.navigate("habit_management")
+                    }) {
+                        Icon(Icons.Default.Add, contentDescription = "Agregar Hábito")
+                    }
+                }
+            )
+        }
+    ) {
+    }
 }
