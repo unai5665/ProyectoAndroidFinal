@@ -104,6 +104,23 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
         }
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Lista de hábitos existentes
+        Text(text = "Tus Hábitos", style = MaterialTheme.typography.titleMedium)
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(habits) { habit ->
+                HabitListItem(habit = habit,
+                    onEdit = {
+                        selectedHabit = habit
+                        habitName = habit.name
+                        habitCategory = habit.category
+                        habitFrequency = habit.frequency
+                        habitReminderTime = habit.reminderTime
+                    },
+                    onDelete = {
+                        habitViewModel.deleteHabit(habit)
+                    }
+                )
+            }
         }
     }
 }
