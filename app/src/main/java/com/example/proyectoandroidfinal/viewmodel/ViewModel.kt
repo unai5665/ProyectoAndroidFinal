@@ -43,7 +43,7 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Función para insertar un nuevo hábito
-    fun insert(habit: Habit) {
+    fun insertHabit(habit: Habit) {
         viewModelScope.launch {
             habitDao.insertHabit(habit)
             loadHabits()  // Recargar los hábitos después de la inserción
