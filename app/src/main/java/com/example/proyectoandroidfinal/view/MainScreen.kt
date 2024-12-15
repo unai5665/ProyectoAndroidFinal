@@ -19,9 +19,9 @@ import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
-    
-
+    val habits = habitViewModel.habits.observeAsState(emptyList())
 
 }
