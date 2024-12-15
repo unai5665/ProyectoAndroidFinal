@@ -27,4 +27,44 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
     var selectedHabit by remember { mutableStateOf<Habit?>(null) } // Para editar
     var errorMessage by remember { mutableStateOf("") }
 
+    // UI
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Gestión de Hábitos", style = MaterialTheme.typography.titleLarge)
+
+        // Formulario
+        OutlinedTextField(
+            value = habitName,
+            onValueChange = { habitName = it },
+            label = { Text("Nombre del Hábito") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = habitCategory,
+            onValueChange = { habitCategory = it },
+            label = { Text("Categoría") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = habitFrequency,
+            onValueChange = { habitFrequency = it },
+            label = { Text("Frecuencia") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = habitReminderTime,
+            onValueChange = { habitReminderTime = it },
+            label = { Text("Hora del Recordatorio") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+
+
+            }
+        }
+    }
 }
+
