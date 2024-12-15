@@ -24,6 +24,9 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val habitViewModel: HabitViewModel = viewModel()
 
+            ProyectoAndroidFinalTheme {
+                NavigationGraph(navController = navController, habitViewModel = habitViewModel)
+            }
         }
     }
 }
