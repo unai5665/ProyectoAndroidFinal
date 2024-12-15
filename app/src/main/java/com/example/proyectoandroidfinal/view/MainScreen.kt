@@ -38,6 +38,34 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
                 }
             )
         }
+    ) { padding ->
+        LazyColumn(
+            contentPadding = padding,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(habits.value) { habit ->
+                HabitItem(habit = habit) {
+                    // Navegar a la pantalla de detalles del hábito con el ID del hábito
+                    navController.navigate("habit_detail/${habit.id}")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HabitItem(habit: Habit, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable(onClick = onClick),
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = habit.name, fontWeight = FontWeight.Bold)
+            Text(text = "Categoría: ${habit.category}")
+            Text(text = "Frecuencia: ${habit.frequency}")
+        }
     }
 }
