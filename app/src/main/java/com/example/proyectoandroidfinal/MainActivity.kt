@@ -22,11 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val habitViewModel: HabitViewModel = viewModel()
 
-
-            ProyectoAndroidFinalTheme {
-
-            }
         }
     }
 }
