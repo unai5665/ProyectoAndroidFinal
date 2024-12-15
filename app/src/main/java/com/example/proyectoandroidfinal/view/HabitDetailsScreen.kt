@@ -79,3 +79,17 @@ fun HabitDetailScreen(navController: NavController, habitId: Int, habitViewModel
     }
 }
 
+@Composable
+fun ReminderItem(reminder: Reminder) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(2.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Hora: ${reminder.reminderTime}")
+            Text(text = "Mensaje: ${reminder.message}")
+        }
+    }
+}
