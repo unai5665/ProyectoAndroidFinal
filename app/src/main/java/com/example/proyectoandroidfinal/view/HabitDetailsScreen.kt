@@ -32,5 +32,27 @@ fun HabitDetailScreen(navController: NavController, habitId: Int, habitViewModel
         Text("Hábito no encontrado", modifier = Modifier.fillMaxSize())
         return
     }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(habitDetail.habit.name) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        // Implementar la lógica para editar el hábito
+                        navController.navigate("habit_management/${habitDetail.habit.id}")
+                    }) {
+                        Icon(Icons.Default.Edit, contentDescription = "Editar Hábito")
+                    }
+                }
+            )
+        }
+    ) {
+    }
 }
 
