@@ -52,7 +52,30 @@ fun HabitDetailScreen(navController: NavController, habitId: Int, habitViewModel
                 }
             )
         }
-    ) {
+    ) { padding ->
+        LazyColumn(
+            contentPadding = padding,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            item {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = "Nombre: ${habitDetail.habit.name}", fontWeight = FontWeight.Bold)
+                    Text(text = "Categoría: ${habitDetail.habit.category}")
+                    Text(text = "Frecuencia: ${habitDetail.habit.frequency}")
+                    Text(text = "Creado en: ${habitDetail.habit.createdAt}")
+                }
+            }
+            item {
+                Text(
+                    text = "Recordatorios",
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            items(habitDetail.reminders) { reminder ->
+                ReminderItem(reminder = reminder)
+            }
+        }
     }
 }
 
