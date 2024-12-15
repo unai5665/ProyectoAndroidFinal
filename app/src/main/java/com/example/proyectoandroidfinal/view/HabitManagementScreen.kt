@@ -61,9 +61,49 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
         )
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Mostrar mensaje de error si los campos están vacíos
+        if (errorMessage.isNotEmpty()) {
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
 
-
+        // Botón para agregar o actualizar hábito
+        Button(onClick = {
+            if (habitName.isEmpty() || habitCategory.isEmpty() || habitFrequency.isEmpty() || habitReminderTime.isEmpty()) {
+                errorMessage = "Todos los campos son obligatorios."
+            } else {
+                if (selectedHabit == null) {
+                    // Agregar nuevo hábito
+                    habitViewModel.insertHabit(
+                        Habit(
+                            name = habitName,
+                            category = habitCategory,
+                            frequency = habitFrequency,
+                            reminderTime = habitReminderTime
+                        )
+                    )
+                } else {
+                    // Editar hábito existente
+                    val updatedHabit = selectedHabit!!.copy(
+                        name = habitName,
+                        category = habitCategory,
+                        frequency = habitFrequency,
+                        reminderTime = habitReminderTime
+                    )
+                    habitViewModel.updateHabit(updatedHabit)
+                }
+                // Limpiar formulario
+                habitName = ""
+                habitCategory = ""
+                habitFrequency = ""
+                habitReminderTime = ""
+                selectedHabit = null
+                errorMessage = ""
             }
+        }) {
+            Text(if (selectedHabit == null) "Agregar Hábito" else "Actualizar Hábito")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
         }
     }
 }
