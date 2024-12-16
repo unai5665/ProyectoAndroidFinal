@@ -43,12 +43,10 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
             modifier = Modifier.fillMaxSize()
         ) {
             items(habits.value) { habit ->
-                // Aquí no es necesario hacer la comprobación del progreso directamente,
-                // ya que esto se manejará dentro del HabitItem.
                 HabitItem(
                     habit = habit,
                     habitViewModel = habitViewModel,
-                    today = today,
+                    today = System.currentTimeMillis(), // Puedes usar la fecha actual aquí
                     onClick = { navController.navigate("habit_detail/${habit.id}") }
                 )
             }
