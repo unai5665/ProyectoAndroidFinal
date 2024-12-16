@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
@@ -16,6 +17,7 @@ import androidx.navigation.NavController
 import com.example.proyectoandroidfinal.model.Habit
 import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navController: NavController) {
     // Estados para los datos
@@ -28,102 +30,118 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
     var errorMessage by remember { mutableStateOf("") }
 
     // UI
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Gestión de Hábitos", style = MaterialTheme.typography.titleLarge)
-
-        // Formulario
-        OutlinedTextField(
-            value = habitName,
-            onValueChange = { habitName = it },
-            label = { Text("Nombre del Hábito") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = habitCategory,
-            onValueChange = { habitCategory = it },
-            label = { Text("Categoría") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = habitFrequency,
-            onValueChange = { habitFrequency = it },
-            label = { Text("Frecuencia") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = habitReminderTime,
-            onValueChange = { habitReminderTime = it },
-            label = { Text("Hora del Recordatorio") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Mostrar mensaje de error si los campos están vacíos
-        if (errorMessage.isNotEmpty()) {
-            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Gestión de Hábitos") },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack() // Regresar a la pantalla anterior
+                    }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                    }
+                }
+            )
         }
+    ) { paddingValues ->
+        // Aplicamos padding a la columna para evitar que la TopAppBar se solape
+        Column(modifier = Modifier.padding(paddingValues)) {
 
-        // Botón para agregar o actualizar hábito
-        Button(onClick = {
-            if (habitName.isEmpty() || habitCategory.isEmpty() || habitFrequency.isEmpty() || habitReminderTime.isEmpty()) {
-                errorMessage = "Todos los campos son obligatorios."
-            } else {
-                if (selectedHabit == null) {
-                    // Agregar nuevo hábito
-                    habitViewModel.insertHabit(
-                        Habit(
+            // Formulario
+            OutlinedTextField(
+                value = habitName,
+                onValueChange = { habitName = it },
+                label = { Text("Nombre del Hábito") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = habitCategory,
+                onValueChange = { habitCategory = it },
+                label = { Text("Categoría") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = habitFrequency,
+                onValueChange = { habitFrequency = it },
+                label = { Text("Frecuencia") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = habitReminderTime,
+                onValueChange = { habitReminderTime = it },
+                label = { Text("Hora del Recordatorio") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Mostrar mensaje de error si los campos están vacíos
+            if (errorMessage.isNotEmpty()) {
+                Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+            }
+
+            // Botón para agregar o actualizar hábito
+            Button(onClick = {
+                if (habitName.isEmpty() || habitCategory.isEmpty() || habitFrequency.isEmpty() || habitReminderTime.isEmpty()) {
+                    errorMessage = "Todos los campos son obligatorios."
+                } else {
+                    if (selectedHabit == null) {
+                        // Agregar nuevo hábito
+                        habitViewModel.insertHabit(
+                            Habit(
+                                name = habitName,
+                                category = habitCategory,
+                                frequency = habitFrequency,
+                                reminderTime = habitReminderTime
+                            )
+                        )
+                    } else {
+                        // Editar hábito existente
+                        val updatedHabit = selectedHabit!!.copy(
                             name = habitName,
                             category = habitCategory,
                             frequency = habitFrequency,
                             reminderTime = habitReminderTime
                         )
-                    )
-                } else {
-                    // Editar hábito existente
-                    val updatedHabit = selectedHabit!!.copy(
-                        name = habitName,
-                        category = habitCategory,
-                        frequency = habitFrequency,
-                        reminderTime = habitReminderTime
-                    )
-                    habitViewModel.updateHabit(updatedHabit)
-                }
-                // Limpiar formulario
-                habitName = ""
-                habitCategory = ""
-                habitFrequency = ""
-                habitReminderTime = ""
-                selectedHabit = null
-                errorMessage = ""
-            }
-        }) {
-            Text(if (selectedHabit == null) "Agregar Hábito" else "Actualizar Hábito")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Lista de hábitos existentes
-        Text(text = "Tus Hábitos", style = MaterialTheme.typography.titleMedium)
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(habits) { habit ->
-                HabitListItem(habit = habit,
-                    onEdit = {
-                        selectedHabit = habit
-                        habitName = habit.name
-                        habitCategory = habit.category
-                        habitFrequency = habit.frequency
-                        habitReminderTime = habit.reminderTime
-                    },
-                    onDelete = {
-                        habitViewModel.deleteHabit(habit)
+                        habitViewModel.updateHabit(updatedHabit)
                     }
-                )
+                    // Limpiar formulario
+                    habitName = ""
+                    habitCategory = ""
+                    habitFrequency = ""
+                    habitReminderTime = ""
+                    selectedHabit = null
+                    errorMessage = ""
+                }
+            }) {
+                Text(if (selectedHabit == null) "Agregar Hábito" else "Actualizar Hábito")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Lista de hábitos existentes
+            Text(text = "Tus Hábitos", style = MaterialTheme.typography.titleMedium)
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(habits) { habit ->
+                    HabitListItem(habit = habit,
+                        onEdit = {
+                            selectedHabit = habit
+                            habitName = habit.name
+                            habitCategory = habit.category
+                            habitFrequency = habit.frequency
+                            habitReminderTime = habit.reminderTime
+                        },
+                        onDelete = {
+                            habitViewModel.deleteHabit(habit)
+                        }
+                    )
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun HabitListItem(habit: Habit, onEdit: () -> Unit, onDelete: () -> Unit) {
