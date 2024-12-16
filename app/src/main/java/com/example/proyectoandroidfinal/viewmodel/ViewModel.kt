@@ -8,6 +8,7 @@ import com.example.proyectoandroidfinal.model.HabitDao
 import com.example.proyectoandroidfinal.model.HabitWithReminders
 import com.example.proyectoandroidfinal.model.Progress
 import com.example.proyectoandroidfinal.model.Reminder
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class HabitViewModel(application: Application) : AndroidViewModel(application) {
@@ -70,29 +71,31 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Registrar progreso de un hábito
     fun toggleProgress(habitId: Int, date: Long, status: Boolean) {
         viewModelScope.launch {
             val existingProgress = progressDao.getProgressByDate(habitId, date)
             if (existingProgress == null) {
-                // Insertar nuevo progreso
-                progressDao.insertProgress(
-                    Progress(habitId = habitId, date = date, status = status)
-                )
-            } else {
-                // Actualizar el progreso existente
-                progressDao.updateProgress(
-                    existingProgress.copy(status = status)
-                )
+                progressDao.insertProgress(Progress(habitId = habitId, date = date, status = status))
+            } else if (existingProgress.status != status) {
+                progressDao.updateProgress(existingProgress.copy(status = status))
             }
         }
     }
 
 
+    private fun refreshHabits() {
+        viewModelScope.launch {
+            // Recargar los hábitos para que la interfaz observe los cambios
+            _habits.postValue(habitDao.getAllHabits())
+        }
+    }
 
-    // Consultar progreso para una fecha específica
-    fun isHabitCompletedLiveData(habitId: Int, date: Long): LiveData<Boolean> = liveData {
-        val progress = progressDao.getProgressByDate(habitId, date)
-        emit(progress?.status ?: false)
+
+
+
+    fun isHabitCompletedLiveData(habitId: Int, date: Long): LiveData<Boolean> {
+        return progressDao.getProgressByDateFlow(habitId, date).map { progress ->
+            progress?.status ?: false
+        }.asLiveData()
     }
 }
