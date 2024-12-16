@@ -28,6 +28,10 @@ interface ProgressDao {
     @Insert
     suspend fun insertProgress(progress: Progress)
 
+    // Obtener progreso de un hábito por fecha
+    @Query("SELECT * FROM progress WHERE habitId = :habitId AND date = :date LIMIT 1")
+    suspend fun getProgressByDate(habitId: Int, date: Long): Progress?
+
     @Query("SELECT * FROM progress WHERE habitId = :habitId")
     suspend fun getProgressForHabit(habitId: Int): List<Progress>
 }
