@@ -89,4 +89,10 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
+
+    // Consultar progreso para una fecha específica
+    fun isHabitCompletedLiveData(habitId: Int, date: Long): LiveData<Boolean> = liveData {
+        val progress = progressDao.getProgressByDate(habitId, date)
+        emit(progress?.status ?: false)
+    }
 }
