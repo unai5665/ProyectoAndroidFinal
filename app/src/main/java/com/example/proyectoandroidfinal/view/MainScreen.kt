@@ -19,10 +19,10 @@ import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-
 @Composable
 fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
     val habits = habitViewModel.habits.observeAsState(emptyList())
+    val today = System.currentTimeMillis() // Fecha actual en milisegundos
 
     Scaffold(
         topBar = {
@@ -30,7 +30,6 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
                 title = { Text("Mis Hábitos") },
                 actions = {
                     IconButton(onClick = {
-                        // Navegar a la pantalla de gestión para agregar un nuevo hábito
                         navController.navigate("habit_management")
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Agregar Hábito")
@@ -44,17 +43,24 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
             modifier = Modifier.fillMaxSize()
         ) {
             items(habits.value) { habit ->
-                HabitItem(habit = habit) {
-                    // Navegar a la pantalla de detalles del hábito con el ID del hábito
-                    navController.navigate("habit_detail/${habit.id}")
-                }
+                // Aquí no es necesario hacer la comprobación del progreso directamente,
+                // ya que esto se manejará dentro del HabitItem.
+                HabitItem(
+                    habit = habit,
+                    habitViewModel = habitViewModel,
+                    today = today,
+                    onClick = { navController.navigate("habit_detail/${habit.id}") }
+                )
             }
         }
     }
 }
 
 @Composable
-fun HabitItem(habit: Habit, onClick: () -> Unit) {
+fun HabitItem(habit: Habit, habitViewModel: HabitViewModel, today: Long, onClick: () -> Unit) {
+    // Observando el progreso del hábito para la fecha actual
+    val isCompleted = habitViewModel.isHabitCompletedLiveData(habit.id, today).observeAsState(false)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,10 +68,26 @@ fun HabitItem(habit: Habit, onClick: () -> Unit) {
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = habit.name, fontWeight = FontWeight.Bold)
-            Text(text = "Categoría: ${habit.category}")
-            Text(text = "Frecuencia: ${habit.frequency}")
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(text = habit.name, fontWeight = FontWeight.Bold)
+                Text(text = "Categoría: ${habit.category}")
+                Text(text = "Frecuencia: ${habit.frequency}")
+            }
+
+            // Checkbox para marcar si el hábito fue completado
+            Checkbox(
+                checked = isCompleted.value,
+                onCheckedChange = { isChecked ->
+                    // Cambiar el estado del progreso
+                    habitViewModel.toggleProgress(habit.id, today, isChecked)
+                }
+            )
         }
     }
 }
