@@ -1,6 +1,7 @@
 package com.example.proyectoandroidfinal.model
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HabitDao {
@@ -26,14 +27,19 @@ interface HabitDao {
 @Dao
 interface ProgressDao {
 
+    @Query("SELECT * FROM progress WHERE habitId = :habitId AND date = :date LIMIT 1")
+    fun getProgressByDateFlow(habitId: Int, date: Long): Flow<Progress?>
+
+
 
     @Update
     suspend fun updateProgress(progress: Progress)
-    @Insert
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProgress(progress: Progress)
 
     // Obtener progreso de un hábito por fecha
-    @Query("SELECT * FROM progress WHERE habitId = :habitId AND date = :date")
+    @Query("SELECT * FROM progress WHERE habitId = :habitId AND date = :date LIMIT 1")
     suspend fun getProgressByDate(habitId: Int, date: Long): Progress?
 
     @Query("SELECT * FROM progress WHERE habitId = :habitId")
