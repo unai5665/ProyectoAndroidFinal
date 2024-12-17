@@ -95,6 +95,14 @@ fun AddReminderScreen(
                     }
                 }
 
+                // Selección de hora del recordatorio
+                Text("Selecciona la hora del recordatorio:")
+                TimePicker(
+                    time = reminderTime.value,
+                    onTimeChanged = { newTime -> reminderTime.value = newTime }
+                )
+
+
             }
         }
     )
