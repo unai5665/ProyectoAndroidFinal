@@ -48,6 +48,14 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteReminder(habitId: Int, reminderTime: Long, message: String) {
+        viewModelScope.launch {
+            val reminder = Reminder(habitId = habitId, reminderTime = reminderTime, message = message)
+            reminderDao.deleteReminder(reminder)
+        }
+    }
+
+
 
     fun loadHabits() {
         viewModelScope.launch {
