@@ -102,6 +102,15 @@ fun AddReminderScreen(
                     onTimeChanged = { newTime -> reminderTime.value = newTime }
                 )
 
+                // Campo para el mensaje del recordatorio
+                Text("Mensaje del recordatorio:")
+                TextField(
+                    value = reminderMessage.value,
+                    onValueChange = { reminderMessage.value = it },
+                    placeholder = { Text("Escribe tu mensaje") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
 
             }
         }
