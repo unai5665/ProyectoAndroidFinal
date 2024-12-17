@@ -3,7 +3,6 @@
 package com.example.proyectoandroidfinal.view
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +21,10 @@ fun NavigationGraph(navController: NavHostController, habitViewModel: HabitViewM
         composable("habit_management") {
             HabitManagementScreen(navController = navController, habitViewModel = habitViewModel)
         }
+        composable("add_reminder") {
+            AddReminderScreen(navController = navController, habitViewModel = habitViewModel)
+        }
+
 
         // Detalles de un hábito
         composable("habit_detail/{habitId}") { backStackEntry ->
