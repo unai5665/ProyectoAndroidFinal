@@ -46,6 +46,19 @@ fun AddReminderScreen(
     val reminderMessage = remember { mutableStateOf("") }
     val expanded = remember { mutableStateOf(false) }
 
-
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Añadir Recordatorio") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Volver")
+                    }
+                }
+            )
+        },
+        content = {
+        }
+    )
 }
 
