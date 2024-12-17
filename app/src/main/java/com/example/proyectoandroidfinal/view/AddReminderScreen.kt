@@ -132,3 +132,30 @@ fun AddReminderScreen(
     )
 }
 
+@Composable
+fun TimePicker(time: Long, onTimeChanged: (Long) -> Unit) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance().apply { timeInMillis = time }
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+
+    Button(onClick = {
+        TimePickerDialog(
+            context,
+            { _, selectedHour, selectedMinute ->
+                val updatedCalendar = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, selectedHour)
+                    set(Calendar.MINUTE, selectedMinute)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
+                onTimeChanged(updatedCalendar.timeInMillis)
+            },
+            hour,
+            minute,
+            true
+        ).show()
+    }) {
+        Text("Seleccionar Hora")
+    }
+}
