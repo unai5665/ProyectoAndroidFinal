@@ -111,7 +111,22 @@ fun AddReminderScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-
+                // Botón para guardar el recordatorio
+                Button(
+                    onClick = {
+                        if (selectedHabit.value != null && reminderMessage.value.isNotEmpty()) {
+                            habitViewModel.insertReminder(
+                                selectedHabit.value!!.id,
+                                reminderTime.value,
+                                reminderMessage.value
+                            )
+                            navController.popBackStack()
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text("Guardar Recordatorio")
+                }
             }
         }
     )
