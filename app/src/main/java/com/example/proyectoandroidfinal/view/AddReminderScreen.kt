@@ -57,7 +57,45 @@ fun AddReminderScreen(
                 }
             )
         },
-        content = {
+        content = { padding ->
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Selección del hábito
+                Text("Selecciona un hábito:")
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    TextField(
+                        value = selectedHabit.value?.name ?: "Selecciona un hábito",
+                        onValueChange = {}, // Este campo no se necesita modificar
+                        readOnly = true, // Hacerlo no editable
+                        trailingIcon = {
+                            IconButton(onClick = { expanded.value = !expanded.value }) {
+                                Icon(Icons.Filled.ArrowDropDown, contentDescription = "Expandir")
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false }
+                    ) {
+                        habitList.forEach { habit ->
+                            DropdownMenuItem(
+                                text = { Text(habit.name) },
+                                onClick = {
+                                    selectedHabit.value = habit
+                                    expanded.value = false
+                                }
+                            )
+                        }
+                    }
+                }
+
+            }
         }
     )
 }
