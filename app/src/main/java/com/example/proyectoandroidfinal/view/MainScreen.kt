@@ -29,6 +29,7 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
             TopAppBar(
                 title = { Text("Mis Hábitos") },
                 actions = {
+                    // Botón en la barra superior para gestionar hábitos
                     IconButton(onClick = {
                         navController.navigate("habit_management")
                     }) {
@@ -36,6 +37,16 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            // FAB para ir a la pantalla de añadir recordatorio
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate("add_reminder")
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Añadir Recordatorio")
+            }
         }
     ) { padding ->
         LazyColumn(
@@ -46,13 +57,14 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
                 HabitItem(
                     habit = habit,
                     habitViewModel = habitViewModel,
-                    today = System.currentTimeMillis(), // Puedes usar la fecha actual aquí
+                    today = System.currentTimeMillis(),
                     onClick = { navController.navigate("habit_detail/${habit.id}") }
                 )
             }
         }
     }
 }
+
 
 @Composable
 fun HabitItem(habit: Habit, habitViewModel: HabitViewModel, today: Long, onClick: () -> Unit) {
