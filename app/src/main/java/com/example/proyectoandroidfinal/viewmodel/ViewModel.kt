@@ -41,6 +41,14 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         loadHabits()
     }
 
+    fun insertReminder(habitId: Int, reminderTime: Long, message: String) {
+        viewModelScope.launch {
+            val reminder = Reminder(habitId = habitId, reminderTime = reminderTime, message = message)
+            reminderDao.insertReminder(reminder)
+        }
+    }
+
+
     fun loadHabits() {
         viewModelScope.launch {
             _habits.value = habitDao.getAllHabits()
