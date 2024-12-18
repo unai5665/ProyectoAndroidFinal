@@ -41,7 +41,7 @@ La aplicación tiene varias pantallas clave que permiten a los usuarios interact
 
 
 ### Pantalla de Recordatorio (AddReminderScreen)
-![AddReminderScreen]()
+![AddReminderScreen](https://github.com/unai5665/ProyectoAndroidFinal/blob/master/AddReminderScreen.PNG)
 
 
 ## Autor
