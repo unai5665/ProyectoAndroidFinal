@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -45,7 +46,7 @@ fun MainScreen(navController: NavController, habitViewModel: HabitViewModel) {
                     navController.navigate("add_reminder")
                 }
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Añadir Recordatorio")
+                Icon(Icons.Default.DateRange, contentDescription = "Añadir Recordatorio")
             }
         }
     ) { padding ->
