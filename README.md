@@ -33,7 +33,7 @@ La aplicación tiene varias pantallas clave que permiten a los usuarios interact
 
 
 ### Pantalla de Detalles del Hábito (HabitDetailScreen)
-![HabitDetailScreen]()
+![HabitDetailScreen](https://github.com/unai5665/ProyectoAndroidFinal/blob/master/MainScreen.PNG)
 
 
 ### Pantalla de Gestión de Hábitos (HabitManagementScreen)
