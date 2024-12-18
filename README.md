@@ -29,11 +29,11 @@ Este proyecto es una aplicación Android para la gestión de hábitos, donde los
 La aplicación tiene varias pantallas clave que permiten a los usuarios interactuar con la aplicación de manera eficiente y moderna.
 
 ### Pantalla Principal (MainScreen)
-![MainScreen]()
+![MainScreen](https://github.com/unai5665/ProyectoAndroidFinal/blob/master/MainScreen.PNG)
 
 
 ### Pantalla de Detalles del Hábito (HabitDetailScreen)
-![HabitDetailScreen](https://github.com/unai5665/ProyectoAndroidFinal/blob/master/MainScreen.PNG)
+![HabitDetailScreen](https://github.com/unai5665/ProyectoAndroidFinal/blob/master/HabitDetailsScreen.png)
 
 
 ### Pantalla de Gestión de Hábitos (HabitManagementScreen)
