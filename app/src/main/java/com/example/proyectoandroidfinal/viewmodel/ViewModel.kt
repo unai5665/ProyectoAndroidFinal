@@ -35,6 +35,9 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
     private val _reminders = MutableLiveData<List<Reminder>>()
     val reminders: LiveData<List<Reminder>> = _reminders
 
+    private val _habitsWithReminders = MutableLiveData<List<HabitWithReminders>>()
+    val habitsWithReminders: LiveData<List<HabitWithReminders>> = _habitsWithReminders
+
     // Inicialización para cargar hábitos automáticamente
     init {
         loadHabits()
@@ -44,22 +47,30 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val reminder = Reminder(habitId = habitId, reminderTime = reminderTime, message = message)
             reminderDao.insertReminder(reminder)
+            refreshHabitsWithReminders()
         }
     }
 
     fun deleteReminder(reminderId: Int) {
         viewModelScope.launch {
-            val reminder = reminderDao.getReminderById(reminderId) // Obtener el recordatorio por ID
+            val reminder = reminderDao.getReminderById(reminderId)
             reminder?.let {
-                reminderDao.deleteReminder(it) // Ahora pasamos el objeto completo Reminder
+                reminderDao.deleteReminder(it)
+                refreshHabitsWithReminders()
             }
         }
     }
 
-
     fun loadHabits() {
         viewModelScope.launch {
             _habits.value = habitDao.getAllHabits()
+            refreshHabitsWithReminders()
+        }
+    }
+
+    private fun refreshHabitsWithReminders() {
+        viewModelScope.launch {
+            _habitsWithReminders.postValue(habitDao.getHabitsWithReminders())
         }
     }
 
@@ -68,12 +79,6 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _reminders.value = reminderDao.getRemindersForHabit(habitId)
         }
-    }
-
-    // Función para obtener los hábitos con sus recordatorios
-    val habitsWithReminders: LiveData<List<HabitWithReminders>> = liveData {
-        val data = habitDao.getHabitsWithReminders()  // Llamamos al DAO para obtener los datos
-        emit(data)
     }
 
     // Función para insertar un nuevo hábito
@@ -114,13 +119,6 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
                 // Si ya existe y el estado cambió, actualiza
                 progressDao.updateProgress(existingProgress.copy(status = status))
             }
-        }
-    }
-
-    private fun refreshHabits() {
-        viewModelScope.launch {
-            // Recargar los hábitos para que la interfaz observe los cambios
-            _habits.postValue(habitDao.getAllHabits())
         }
     }
 
