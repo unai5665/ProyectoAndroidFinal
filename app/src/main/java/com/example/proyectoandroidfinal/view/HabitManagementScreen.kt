@@ -1,5 +1,7 @@
 package com.example.proyectoandroidfinal.view
 
+import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,11 +13,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.proyectoandroidfinal.MainActivity
 import com.example.proyectoandroidfinal.model.Habit
 import com.example.proyectoandroidfinal.viewmodel.HabitViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +34,7 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
     var habitReminderTime by remember { mutableStateOf("") }
     var selectedHabit by remember { mutableStateOf<Habit?>(null) } // Para editar
     var errorMessage by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     // UI
     Scaffold(
@@ -97,6 +104,17 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
                                 reminderTime = habitReminderTime
                             )
                         )
+
+                        // Verificar si se tiene el permiso antes de mostrar la notificación
+                        if (ContextCompat.checkSelfPermission(
+                                context,
+                                android.Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            (context as MainActivity).showNotification(context, habitName)
+                        } else {
+                            Toast.makeText(context, "Se necesita permiso para notificaciones", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         // Editar hábito existente
                         val updatedHabit = selectedHabit!!.copy(
@@ -106,6 +124,8 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
                             reminderTime = habitReminderTime
                         )
                         habitViewModel.updateHabit(updatedHabit)
+
+
                     }
                     // Limpiar formulario
                     habitName = ""
