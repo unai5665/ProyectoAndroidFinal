@@ -18,7 +18,6 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
     private val progressDao = db.progressDao()
     private val reminderDao = db.reminderDao()
 
-
     private fun truncateToStartOfDay(timestamp: Long): Long {
         val calendar = Calendar.getInstance().apply {
             timeInMillis = timestamp
@@ -48,13 +47,14 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteReminder(habitId: Int, reminderTime: Long, message: String) {
+    fun deleteReminder(reminderId: Int) {
         viewModelScope.launch {
-            val reminder = Reminder(habitId = habitId, reminderTime = reminderTime, message = message)
-            reminderDao.deleteReminder(reminder)
+            val reminder = reminderDao.getReminderById(reminderId) // Obtener el recordatorio por ID
+            reminder?.let {
+                reminderDao.deleteReminder(it) // Ahora pasamos el objeto completo Reminder
+            }
         }
     }
-
 
 
     fun loadHabits() {
@@ -117,14 +117,12 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     private fun refreshHabits() {
         viewModelScope.launch {
             // Recargar los hábitos para que la interfaz observe los cambios
             _habits.postValue(habitDao.getAllHabits())
         }
     }
-
 
     fun isHabitCompletedLiveData(habitId: Int, date: Long): LiveData<Boolean> {
         val truncatedDate =
