@@ -37,7 +37,7 @@ La aplicación tiene varias pantallas clave que permiten a los usuarios interact
 
 
 ### Pantalla de Gestión de Hábitos (HabitManagementScreen)
-![HabitManagementScreen]()
+![HabitManagementScreen](https://github.com/unai5665/ProyectoAndroidFinal/blob/master/HabitManagementScreen.PNG)
 
 
 ### Pantalla de Recordatorio (AddReminderScreen)
