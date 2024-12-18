@@ -49,6 +49,9 @@ interface ProgressDao {
 
 @Dao
 interface ReminderDao {
+
+    @Query("SELECT * FROM reminder WHERE id = :reminderId LIMIT 1")
+    suspend fun getReminderById(reminderId: Int): Reminder?
     @Insert
     suspend fun insertReminder(reminder: Reminder)
 
