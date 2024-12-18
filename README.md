@@ -29,12 +29,20 @@ Este proyecto es una aplicación Android para la gestión de hábitos, donde los
 La aplicación tiene varias pantallas clave que permiten a los usuarios interactuar con la aplicación de manera eficiente y moderna.
 
 ### Pantalla Principal (MainScreen)
+![MainScreen]()
+
 
 ### Pantalla de Detalles del Hábito (HabitDetailScreen)
+![HabitDetailScreen]()
+
 
 ### Pantalla de Gestión de Hábitos (HabitManagementScreen)
+![HabitManagementScreen]()
+
 
 ### Pantalla de Recordatorio (AddReminderScreen)
+![AddReminderScreen]()
+
 
 ## Autor
 **Unai Perez Toscano**
