@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
     fun showNotification(context: android.content.Context, habitTitle: String) {
         val builder = NotificationCompat.Builder(context, "habit_channel")
             .setSmallIcon(R.drawable.ic_launcher_background) // Aquí puedes usar un icono personalizado
-            .setContentTitle("Hábito actualizado")
+            .setContentTitle("Hábito creado")
             .setContentText("El hábito '$habitTitle' ha sido creado")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
