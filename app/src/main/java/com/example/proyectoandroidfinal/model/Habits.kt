@@ -1,6 +1,8 @@
 package com.example.proyectoandroidfinal.model
 
 import androidx.room.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Entity(tableName = "habit")
 data class Habit(
@@ -8,9 +10,15 @@ data class Habit(
     val name: String,
     val category: String,
     val frequency: String,
-    val reminderTime: String,
-    val createdAt: Long = System.currentTimeMillis()
-)
+    val createdAt: String = getCurrentTimestamp()
+) {
+    companion object {
+        fun getCurrentTimestamp(): String {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            return dateFormat.format(System.currentTimeMillis())
+        }
+    }
+}
 
 @Entity(tableName = "progress",
     foreignKeys = [
@@ -26,8 +34,7 @@ data class Progress(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val habitId: Int,  // Relación con la tabla Habit
     val date: Long,
-    val status: Boolean,  // True si el hábito fue completado, False si no
-    val note: String? = null
+    val status: Boolean  // True si el hábito fue completado, False si no
 )
 
 @Entity(tableName = "reminder",
@@ -39,7 +46,7 @@ data class Progress(
             onDelete = ForeignKey.CASCADE
         )
     ],
-indices = [Index("habitId")] )
+    indices = [Index("habitId")] )
 data class Reminder(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val habitId: Int,  // Relación con la tabla Habit

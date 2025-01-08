@@ -31,7 +31,6 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
     var habitName by remember { mutableStateOf("") }
     var habitCategory by remember { mutableStateOf("") }
     var habitFrequency by remember { mutableStateOf("") }
-    var habitReminderTime by remember { mutableStateOf("") }
     var selectedHabit by remember { mutableStateOf<Habit?>(null) } // Para editar
     var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -76,13 +75,6 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
-            OutlinedTextField(
-                value = habitReminderTime,
-                onValueChange = { habitReminderTime = it },
-                label = { Text("Hora del Recordatorio") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
 
             // Mostrar mensaje de error si los campos están vacíos
             if (errorMessage.isNotEmpty()) {
@@ -91,7 +83,7 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
 
             // Botón para agregar o actualizar hábito
             Button(onClick = {
-                if (habitName.isEmpty() || habitCategory.isEmpty() || habitFrequency.isEmpty() || habitReminderTime.isEmpty()) {
+                if (habitName.isEmpty() || habitCategory.isEmpty() || habitFrequency.isEmpty()) {
                     errorMessage = "Todos los campos son obligatorios."
                 } else {
                     if (selectedHabit == null) {
@@ -101,37 +93,21 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
                                 name = habitName,
                                 category = habitCategory,
                                 frequency = habitFrequency,
-                                reminderTime = habitReminderTime
                             )
                         )
-
-                        // Verificar si se tiene el permiso antes de mostrar la notificación
-                        if (ContextCompat.checkSelfPermission(
-                                context,
-                                android.Manifest.permission.POST_NOTIFICATIONS
-                            ) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            (context as MainActivity).showNotification(context, habitName)
-                        } else {
-                            Toast.makeText(context, "Se necesita permiso para notificaciones", Toast.LENGTH_SHORT).show()
-                        }
                     } else {
                         // Editar hábito existente
                         val updatedHabit = selectedHabit!!.copy(
                             name = habitName,
                             category = habitCategory,
                             frequency = habitFrequency,
-                            reminderTime = habitReminderTime
                         )
                         habitViewModel.updateHabit(updatedHabit)
-
-
                     }
                     // Limpiar formulario
                     habitName = ""
                     habitCategory = ""
                     habitFrequency = ""
-                    habitReminderTime = ""
                     selectedHabit = null
                     errorMessage = ""
                 }
@@ -150,7 +126,6 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
                             habitName = habit.name
                             habitCategory = habit.category
                             habitFrequency = habit.frequency
-                            habitReminderTime = habit.reminderTime
                         },
                         onDelete = {
                             habitViewModel.deleteHabit(habit)
@@ -161,7 +136,6 @@ fun HabitManagementScreen(habitViewModel: HabitViewModel = viewModel(), navContr
         }
     }
 }
-
 
 @Composable
 fun HabitListItem(habit: Habit, onEdit: () -> Unit, onDelete: () -> Unit) {
@@ -176,7 +150,6 @@ fun HabitListItem(habit: Habit, onEdit: () -> Unit, onDelete: () -> Unit) {
                 Text(text = habit.name, style = MaterialTheme.typography.titleMedium)
                 Text(text = "Categoría: ${habit.category}")
                 Text(text = "Frecuencia: ${habit.frequency}")
-                Text(text = "Hora del Recordatorio: ${habit.reminderTime}")
             }
             Spacer(modifier = Modifier.width(8.dp))
             Column {
